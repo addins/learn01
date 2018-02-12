@@ -1,9 +1,6 @@
 package org.addin.learns.learn01.service;
 
-import org.addin.learns.learn01.domain.BuyXGetYPriceRule;
-import org.addin.learns.learn01.domain.PriceRule;
-import org.addin.learns.learn01.domain.SimplePriceRule;
-import org.addin.learns.learn01.domain.Sku;
+import org.addin.learns.learn01.domain.*;
 import org.addin.learns.learn01.repository.PriceRuleRepository;
 import org.addin.learns.learn01.repository.SimplePriceRuleRepository;
 import org.addin.learns.learn01.repository.SkuRepository;
@@ -11,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Service
@@ -61,6 +59,19 @@ public class PriceRuleService {
                 .name("test buy 2 get 1 free")
                 .description("test");
 
+        PriceRule buyXGetDiscPriceRule = new BuyXGetDiscPriceRule()
+                .maxAllowed(1L)
+                .qtyBuy(24L)
+                .pieces(true)
+                .fixedOff(new BigDecimal(2000))
+                .sku(sku)
+                .active(true)
+                .startDate(LocalDate.now().plusMonths(2))
+                .endDate(LocalDate.now().plusMonths(4))
+                .name("test buy 24 get disc 2000")
+                .description("test");
+
+        priceRuleRepository.save(buyXGetDiscPriceRule);
         priceRuleRepository.save(simplePriceRule);
         priceRuleRepository.save(buyXGetYPriceRule);
     }
