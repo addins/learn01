@@ -1,6 +1,9 @@
 package org.addin.learns.learn01.service;
 
-import org.addin.learns.learn01.domain.*;
+import org.addin.learns.learn01.domain.BuyXGetYPriceRule;
+import org.addin.learns.learn01.domain.PriceRule;
+import org.addin.learns.learn01.domain.SimplePriceRule;
+import org.addin.learns.learn01.domain.Sku;
 import org.addin.learns.learn01.repository.PriceRuleRepository;
 import org.addin.learns.learn01.repository.SimplePriceRuleRepository;
 import org.addin.learns.learn01.repository.SkuRepository;
@@ -42,8 +45,7 @@ public class PriceRuleService {
                 .endDate(LocalDate.now().plusDays(7))
                 .active(true)
                 .name("test simple rule")
-                .description("this is a test")
-                .type(PriceRuleType.SIMPLE);
+                .description("this is a test");
 
         PriceRule buyXGetYPriceRule = new BuyXGetYPriceRule()
                 .skuBuy(sku)
@@ -54,7 +56,6 @@ public class PriceRuleService {
                 .qtyGet(1L)
                 .maxAllowed(3L)
                 .active(true)
-                .type(PriceRuleType.BUY_X_GET_Y_FREE)
                 .startDate(LocalDate.now().plusDays(5))
                 .endDate(LocalDate.now().plusWeeks(5))
                 .name("test buy 2 get 1 free")

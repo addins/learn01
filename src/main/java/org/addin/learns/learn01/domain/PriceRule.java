@@ -7,6 +7,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "price_rule")
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "type")
 public abstract class PriceRule extends AbstractPersistable {
 
     @NotNull
@@ -28,10 +29,6 @@ public abstract class PriceRule extends AbstractPersistable {
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private PriceRuleType type;
 
     public LocalDate getStartDate() {
         return startDate;
@@ -73,14 +70,6 @@ public abstract class PriceRule extends AbstractPersistable {
         this.active = active;
     }
 
-    public PriceRuleType getType() {
-        return type;
-    }
-
-    public void setType(PriceRuleType type) {
-        this.type = type;
-    }
-
 
     public PriceRule startDate(LocalDate startDate) {
         this.startDate = startDate;
@@ -104,11 +93,6 @@ public abstract class PriceRule extends AbstractPersistable {
 
     public PriceRule active(Boolean active) {
         this.active = active;
-        return this;
-    }
-
-    public PriceRule type(PriceRuleType type) {
-        this.type = type;
         return this;
     }
 }

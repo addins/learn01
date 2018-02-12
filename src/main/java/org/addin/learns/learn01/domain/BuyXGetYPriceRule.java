@@ -1,13 +1,11 @@
 package org.addin.learns.learn01.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "price_rule_buyx_gety")
+@DiscriminatorValue(PriceRuleTypeConst.BUY_X_GET_Y_FREE)
 public class BuyXGetYPriceRule extends PriceRule {
     @Column(name = "max_allowed")
     private Long maxAllowed;
