@@ -1,9 +1,7 @@
 package org.addin.learns.learn01.service;
 
-import org.addin.learns.learn01.domain.PriceRule;
-import org.addin.learns.learn01.domain.PriceRuleType;
-import org.addin.learns.learn01.domain.SimplePriceRule;
-import org.addin.learns.learn01.domain.Sku;
+import org.addin.learns.learn01.domain.*;
+import org.addin.learns.learn01.repository.PriceRuleRepository;
 import org.addin.learns.learn01.repository.SimplePriceRuleRepository;
 import org.addin.learns.learn01.repository.SkuRepository;
 import org.springframework.stereotype.Service;
@@ -18,10 +16,12 @@ public class PriceRuleService {
 
     private final SimplePriceRuleRepository simplePriceRuleRepository;
     private final SkuRepository skuRepository;
+    private final PriceRuleRepository priceRuleRepository;
 
-    public PriceRuleService(SimplePriceRuleRepository simplePriceRuleRepository, SkuRepository skuRepository) {
+    public PriceRuleService(SimplePriceRuleRepository simplePriceRuleRepository, SkuRepository skuRepository, PriceRuleRepository priceRuleRepository) {
         this.simplePriceRuleRepository = simplePriceRuleRepository;
         this.skuRepository = skuRepository;
+        this.priceRuleRepository = priceRuleRepository;
     }
 
     @PostConstruct
@@ -45,6 +45,22 @@ public class PriceRuleService {
                 .description("this is a test")
                 .type(PriceRuleType.SIMPLE);
 
-        simplePriceRuleRepository.save((SimplePriceRule) simplePriceRule);
+        PriceRule buyXGetYPriceRule = new BuyXGetYPriceRule()
+                .skuBuy(sku)
+                .skuGet(sku)
+                .casesBuy(true)
+                .piecesGet(true)
+                .qtyBuy(2L)
+                .qtyGet(1L)
+                .maxAllowed(3L)
+                .active(true)
+                .type(PriceRuleType.BUY_X_GET_Y_FREE)
+                .startDate(LocalDate.now().plusDays(5))
+                .endDate(LocalDate.now().plusWeeks(5))
+                .name("test buy 2 get 1 free")
+                .description("test");
+
+        priceRuleRepository.save(simplePriceRule);
+        priceRuleRepository.save(buyXGetYPriceRule);
     }
 }
